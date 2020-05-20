@@ -1,0 +1,15 @@
+{
+  "name": "vendor_name/server",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "kazunari.ueeda",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+    
+  }
+}
