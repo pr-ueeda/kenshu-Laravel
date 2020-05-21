@@ -14,10 +14,8 @@ services:
     image: mysql:5.7
     container_name: laravel-db
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: pass
       MYSQL_DATABASE: kenshu-laravel
-      MYSQL_USER: docker
-      MYSQL_PASSWORD: docker
       TZ: 'Asia/Tokyo'
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
@@ -30,10 +28,5 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin-laravel
-    environment:
-      - PMA_ARBITRARY=1
-      - PMA_HOSTS=db-host
-      - PMA_USER=root
-      - PMA_PASSWORD=root
     ports:
       - 8080:80
