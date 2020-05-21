@@ -15,9 +15,7 @@ services:
     container_name: laravel-db
     environment:
       MYSQL_ROOT_PASSWORD: pass
-      MYSQL_DATABASE: kenshu-laravel
       TZ: 'Asia/Tokyo'
-    command: mysqld --character-set-src=utf8mb4 --collation-src=utf8mb4_unicode_ci
     volumes:
       - ./docker/db/data:/var/lib/mysql
       - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
