@@ -8,16 +8,13 @@ services:
       - 80:80
     privileged: true
     volumes:
-      - ./server:/var/www
+      - ./server:/var/www/html
 
-  db:
+  mysql:
     image: mysql:5.7
-    container_name: kenshu-Laravel-db
+    container_name: mysql-laravel
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: docker-database
-      MYSQL_USER: root
-      MYSQL_PASSWORD: pass
       TZ: 'Asia/Tokyo'
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
@@ -28,8 +25,8 @@ services:
       - 3306:3306
 
   phpmyadmin:
-    container_name: phpmyadmin-laravel
     image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin-laravel
     environment:
       - PMA_ARBITRARY=1
       - PMA_HOSTS=db-host

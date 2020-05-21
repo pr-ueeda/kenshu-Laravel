@@ -7,12 +7,12 @@ RUN apt-get update \
   && docker-php-ext-install zip pdo_mysql mysqli \
   && docker-php-ext-enable mysqli
 
-#Composer install
+# Composer install
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_HOME /composer
 ENV PATH $PATH:/composer/vendor/bin
 
-WORKDIR /var/www/
+WORKDIR /var/www/html
 
 RUN composer global require "laravel/installer"
