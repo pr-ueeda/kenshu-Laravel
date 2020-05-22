@@ -3,7 +3,10 @@
         Options -MultiViews -Indexes
     </IfModule>
 
+    LoadModule rewrite_module lib/httpd/modules/mod_rewrite.so
+
     RewriteEngine On
+    RewriteBase /
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .

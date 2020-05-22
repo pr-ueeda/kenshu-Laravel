@@ -14,9 +14,9 @@ class CreatArticleImagesTable extends Migration
     public function up()
     {
         Schema::create('article_images', function (Blueprint $table) {
-           $table->id('article_image_id');
-           $table->integer('article_id');
-           $table->integer('image_id');
+           $table->increments('article_image_id');
+           $table->integer('article_id')->unsigned();
+           $table->integer('image_id')->unsigned();
 
            $table->foreign('article_id')
                ->references('article_id')
@@ -38,6 +38,6 @@ class CreatArticleImagesTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('article_images');
     }
 }

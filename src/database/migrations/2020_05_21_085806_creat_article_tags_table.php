@@ -14,9 +14,9 @@ class CreatArticleTagsTable extends Migration
     public function up()
     {
         Schema::create('article_tags', function (Blueprint $table) {
-           $table->id('article_tag');
-           $table->integer('article_id');
-           $table->integer('tag_id');
+           $table->increments('article_tag');
+           $table->integer('article_id')->unsigned();
+           $table->integer('tag_id')->unsigned();
 
            $table->foreign('article_id')
                ->references('article_id')
@@ -37,6 +37,6 @@ class CreatArticleTagsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('article_tags');
     }
 }

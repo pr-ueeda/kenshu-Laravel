@@ -14,8 +14,8 @@ class CreatThumbnailsTable extends Migration
     public function up()
     {
         Schema::create('thumbnails', function (Blueprint $table) {
-            $table->id('thumbnail_id');
-            $table->integer('image_id');
+            $table->increments('thumbnail_id');
+            $table->integer('image_id')->unsigned();
 
             $table->foreign('image_id')
                 ->references('image_id')
