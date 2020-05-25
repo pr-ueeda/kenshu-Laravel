@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>kenshu-Laravel</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -78,23 +78,30 @@
                     @endauth
                 </div>
             @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
+        <main role="main" class="container">
+            <table class="table table-hover table-condensed">
+                <thead>
+                <tr class="hidden-xs-down">
+                    <th>日付</th>
+                    <th>ユーザー名</th>
+                    <th>サムネイル</th>
+                    <th>タイトル</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class=" hidden-xs">
+                    @if(count($user_articles) > 0)
+                        @foreach($user_articles as $user_article)
+                            <td>{{ $user_article->created_at }}</td>
+                            <td>{{ $user_article->name }}</td>
+                            <td>{{ $user_article->thumbnail }}</td>
+                            <td>{{ $user_article->title }}</td>
+                        @endforeach
+                    @endif
+                </tr>
+                </tbody>
+            </table>
+        </main>
         </div>
     </body>
 </html>
