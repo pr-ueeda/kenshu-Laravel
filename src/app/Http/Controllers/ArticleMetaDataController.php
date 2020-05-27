@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models;
 
-class ArticleController extends Controller
+class ArticleMetaDataController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,12 +15,12 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $user_articles = Models\User::select()
-            ->join('user_articles', 'user_articles.id', '=', 'users.id')
-            ->join('articles', 'user_articles.article_id', '=', 'articles.article_id')
+        $article_meta_data = Models\User::select()
+            ->join('user_articles', 'user_articles.user_id', '=', 'users.id')
+            ->join('articles', 'user_articles.article_id', '=', 'articles.id')
             ->get();
 
-        return \view('welcome', ['user_articles' => $user_articles]);
+        return \view('welcome', ['article_meta_data' => $article_meta_data]);
     }
 
     /**

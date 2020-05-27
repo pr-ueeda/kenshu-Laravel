@@ -55,9 +55,9 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href=""
+                                    <a class="dropdown-item" href="{{ route('posts', [Auth::user()->id]) }}"
                                        onclick="event.preventDefault();
-                                        document.getElementById('posts-article-form').submit();">
+                                        document.getElementById('posts-article').submit();">
                                         {{ __('記事投稿') }}
                                     </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
@@ -66,7 +66,7 @@
                                         {{ __('Logout') }}
                                     </a>
 
-                                    <form id="posts-article" action="" method="POST" style="display: none;">
+                                    <form id="posts-article" action="{{ url('/posts') }}" method="GET" style="display: none;">
                                         @csrf
                                     </form>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

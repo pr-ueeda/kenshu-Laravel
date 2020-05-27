@@ -6,10 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
-    protected $guarded = ['article_id', 'created_at'];
+    protected $guarded = ['article_id'];
 
-    public function users()
-    {
-
+    public function user() {
+        return $this->belongsToMany('App\Models\User', 'user_articles');
     }
 }

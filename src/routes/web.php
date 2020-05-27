@@ -13,9 +13,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::resource('/', 'ArticleController');
-
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::resource('/', 'ArticleMetaDataController');
+
+Route::get('/article/{id}', 'ArticleController@show')->name('article.show');
+
+Route::resource('/posts', 'PostsController')->names(['store'=> 'posts']);

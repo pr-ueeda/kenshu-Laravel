@@ -12,8 +12,14 @@ class ArticleImagesTableSeeder extends Seeder
     public function run()
     {
         \Illuminate\Support\Facades\DB::table('article_images')->insert([
-            'article_id' => 1,
-            'image_id'   => 1
+            [
+                'article_id' => 1,
+                'image_id'   => 1
+            ],
+            [
+                'article_id' => 2,
+                'image_id'   => 2
+            ]
         ]);
     }
 }

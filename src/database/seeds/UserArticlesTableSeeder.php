@@ -13,11 +13,11 @@ class UserArticlesTableSeeder extends Seeder
     {
         \Illuminate\Support\Facades\DB::table('user_articles')->insert([
             [
-                'id'    => 1,
+                'user_id'    => 1,
                 'article_id' => 1
             ],
             [
-                'id' => 1,
+                'user_id' => 1,
                 'article_id' => 2
             ]
         ]);

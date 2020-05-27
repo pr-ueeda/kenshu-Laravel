@@ -18,7 +18,7 @@ class CreatThumbnailsTable extends Migration
             $table->integer('image_id')->unsigned();
 
             $table->foreign('image_id')
-                ->references('image_id')
+                ->references('id')
                 ->on('images')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');

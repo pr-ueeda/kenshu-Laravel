@@ -8,10 +8,7 @@ class User extends Model
 {
     protected $guarded = ['id', 'created_at'];
 
-    public function articles()
-    {
-        return $this
-            ->belongsToMany('App\Models\Article')
-            ->using('App\UserArticle');
+    public function article() {
+        return $this->belongsToMany('App\Models\Article', 'user_articles');
     }
 }
