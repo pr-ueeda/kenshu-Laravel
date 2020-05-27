@@ -3,24 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 use App\Models;
 
-class ArticleMetaDataController extends Controller
+class ArticleController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|View
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $article_meta_data = Models\User::select('articles.id', 'title', 'body', 'articles.created_at')
-            ->join('user_articles', 'user_articles.user_id', '=', 'users.id')
-            ->join('articles', 'user_articles.article_id', '=', 'articles.id')
-            ->get();
-
-        return \view('welcome', ['article_meta_data' => $article_meta_data]);
+        //
     }
 
     /**
@@ -48,11 +42,22 @@ class ArticleMetaDataController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function show($id)
     {
-        //
+        $article_data = Models\User::select()
+            ->join('user_articles', 'user_articles.user_id', '=', 'users.id')
+            ->join('articles', 'user_articles.article_id', '=', 'articles.id')
+            ->join('article_images', 'article_images.article_id', 'articles.id')
+            ->join('images', 'images.id', 'article_images.image_id')
+            ->join('article_tags', 'article_tags.article_id', 'articles.id')
+            ->join('tags', 'tags.id', 'article_tags.tag_id')
+            ->join('thumbnails', 'thumbnails.image_id', 'images.id')
+            ->where('articles.id', '=', $id)
+            ->get();
+
+        return \view('article', ['article_data' => $article_data]);
     }
 
     /**
