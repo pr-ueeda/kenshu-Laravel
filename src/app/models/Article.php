@@ -11,4 +11,8 @@ class Article extends Model
     public function user() {
         return $this->belongsToMany('App\Models\User', 'user_articles');
     }
+
+    public function tag() {
+        return $this->belongsToMany('App\Models\Tag', 'article_tags');
+    }
 }

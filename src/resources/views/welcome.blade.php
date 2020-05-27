@@ -78,26 +78,28 @@
                     @endauth
                 </div>
             @endif
-            <div class="flex-column">
-                @if(count($article_meta_data) > 0)
-                    @foreach($article_meta_data as $article_meta_datum)
-                <div class="col-md-6">
-                    <div class="card flex-md-row mb-4 shadow-sm h-md-250">
-                        <div class="card-body d-flex flex-column align-items-start">
-                            <strong class="d-inline-block mb-2 text-primary"></strong>
-                            <h3 class="mb-0">
-                                <a class="text-dark" href="">{{ $article_meta_datum->title }}</a>
-                            </h3>
-                            <div class="mb-1 text-muted">投稿日 : {{ $article_meta_datum->created_at }}</div>
-                            <p class="card-text mb-auto">{{ $article_meta_datum->body }}</p>
-                            <a href="{{ route('article.show', [$article_meta_datum->article_id]) }}">続きを読む</a>
-                        </div>
-                    </div>
+            <div class="container">
+                <div class="flex-column">
+                    @if(count($article_meta_data) > 0)
+                        @foreach($article_meta_data as $article_meta_datum)
+                            <div class="col-md-6">
+                                <div class="card flex-md-row mb-4 shadow-sm h-md-250">
+                                    <div class="card-body d-flex flex-column align-items-start">
+                                        <strong class="d-inline-block mb-2 text-primary"></strong>
+                                        <h3 class="mb-0">
+                                            <a class="text-dark" href="">{{ $article_meta_datum->title }}</a>
+                                        </h3>
+                                        <div class="mb-1 text-muted">投稿日 : {{ $article_meta_datum->created_at }}</div>
+                                        <p class="card-text mb-auto">{{ $article_meta_datum->body }}</p>
+                                        <a href="{{ route('article.show', [$article_meta_datum->article_id]) }}">続きを読む</a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @else
+                        <p>まだ記事がありません。</p>
+                    @endif
                 </div>
-                    @endforeach
-                @else
-                    <p>まだ記事がありません。</p>
-                @endif
             </div>
         </div>
     </body>
