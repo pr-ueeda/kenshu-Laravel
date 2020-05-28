@@ -6,6 +6,7 @@ use App\Models\Image;
 use App\Models\User;
 use App\Models\Article;
 use App\Models\Tag;
+use GuzzleHttp\Psr7\UploadedFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -67,6 +68,17 @@ class PostsController extends Controller
             }
         }
 
+        $images_id = [];
+        $images = $request->file('up_file');
+        var_dump($images);
+        foreach ($images as $image) {
+            $path = $image->store('images');
+            $image_insert = \App\Models\Image::firstOrCreate([
+                'image_url' => $path
+            ]);
+            $images_id[] = $image_insert->id;
+        }
+
         // ログインしているユーザーのID取得
         $user_id = Auth::id();
         $user = User::find($user_id);
@@ -77,28 +89,10 @@ class PostsController extends Controller
         $article = Article::find($last_insert_id);
         $article->tag()->attach($tag_ids);
 
-        //$article->image()->attach($images_url);
+        $article->image()->attach($images_id);
 
-        return redirect('/home')->with('投稿しました。');
+        return redirect('/home')->with('success', '投稿しました。');
     }
-
-    /*
-    public function upload(Request $request) {
-        // formからアップロードされた画像処理
-        $images_url = [];
-        $images = $request->file('up_file');
-        var_dump($images);
-        foreach ($images as $image) {
-            $path = $image->store('public/images');
-            $image_insert = \App\Models\Image::firstOrCreate([
-                'image_url' => $path
-            ]);
-            $images_url[] = $image_insert->id;
-        }
-
-        return $images_url;
-    }
-    */
 
     /**
      * Display the specified resource.

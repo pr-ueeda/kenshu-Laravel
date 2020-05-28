@@ -29,7 +29,7 @@
     }
 </script>
 <div class="container">
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         @csrf
         <a href="{{ route('home') }}">戻る</a><br>
         <label>題名</label>
@@ -39,9 +39,11 @@
         <label>本文</label>
         <textarea id="body" name="body" class="form-control" rows="50" cols="80" placeholder="本文をここに入力"></textarea>
         <label>画像アップロード</label>
-        <input type="file" id="up_file" name="up_file" >
-        <button type="submit">アップロード</button>
+        <input type="file" id="up_file" name="up_file[]" multiple>
         <button name="posts" id="posts" type="submit" class="btn btn-info">投稿</button>
+    </form>
+    <form>
+
     </form>
     @isset($filename)
     <div class="uploaded_images">

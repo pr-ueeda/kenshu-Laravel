@@ -16,7 +16,6 @@
         <div class="col-md-8 blog-main">
             <div class="d-flex">
                 @if(count($article_data) > 0)
-                    {{ \Illuminate\Support\Facades\Log::debug(print_r($article_data, true)) }}
                     @foreach($article_data as $article_datum)
                 <div class="blog-post">
                     <h2 class="blog-post-title">{{ $article_datum->title }}</h2>
