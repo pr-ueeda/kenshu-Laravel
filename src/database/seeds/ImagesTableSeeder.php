@@ -12,7 +12,16 @@ class ImagesTableSeeder extends Seeder
     public function run()
     {
         \Illuminate\Support\Facades\DB::table('images')->insert([
-            'image_url' => '/images/no image.jpg'
-        ]);
+            [
+                'image_url' => '/images/no image.jpg',
+                'updated_at' => new DateTime(),
+                'created_at' => new DateTime()
+            ],
+                [
+                    'image_url' => '/images/no image.jpg',
+                    'updated_at' => new DateTime(),
+                    'created_at' => new DateTime()
+                ]
+            ]);
     }
 }

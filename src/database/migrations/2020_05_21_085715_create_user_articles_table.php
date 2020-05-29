@@ -14,18 +14,17 @@ class CreateUserArticlesTable extends Migration
     public function up()
     {
         Schema::create('user_articles', function (Blueprint $table) {
-            $table->increments('user_article_id');
-            $table->integer('id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->integer('article_id')->unsigned();
 
-            $table->foreign('id')
+            $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
             $table->foreign('article_id')
-                ->references('article_id')
+                ->references('id')
                 ->on('articles')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');

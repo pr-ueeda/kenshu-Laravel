@@ -19,12 +19,12 @@ class CreatArticleImagesTable extends Migration
            $table->integer('image_id')->unsigned();
 
            $table->foreign('article_id')
-               ->references('article_id')
+               ->references('id')
                ->on('articles')
                ->onDelete('cascade');
 
            $table->foreign('image_id')
-               ->references('image_id')
+               ->references('id')
                ->on('images')
                ->onDelete('cascade')
                ->onUpdate('cascade');

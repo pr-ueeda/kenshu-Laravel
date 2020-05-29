@@ -12,7 +12,16 @@ class TagsTableSeeder extends Seeder
     public function run()
     {
         \Illuminate\Support\Facades\DB::table('tags')->insert([
-            'tag_name' => 'プログラミング'
+            [
+                'tag_name' => 'コロナウイルス',
+                'created_at' => new DateTime(),
+                'updated_at' => new DateTime()
+            ],
+            [
+                'tag_name' => 'プログラミング',
+                'created_at' => new DateTime(),
+                'updated_at' => new DateTime()
+            ],
         ]);
     }
 }

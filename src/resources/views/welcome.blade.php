@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>kenshu-Laravel</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -78,21 +78,29 @@
                     @endauth
                 </div>
             @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+            <div class="container">
+                <div class="flex-column">
+                    @if(count($article_meta_data) > 0)
+                        @foreach($article_meta_data as $article_meta_datum)
+                            {{ var_dump($article_meta_datum->id) }}
+                            <div class="col-md-6">
+                                <div class="card flex-md-row mb-4 shadow-sm h-md-250">
+                                    <div class="card-body d-flex flex-column align-items-start">
+                                        <strong class="d-inline-block mb-2 text-primary"></strong>
+                                        <h3 class="mb-0">
+                                            <a class="text-dark" href="">{{ $article_meta_datum->title }}</a>
+                                        </h3>
+                                        <div class="mb-1 text-muted">投稿日 : {{ $article_meta_datum->created_at }}</div>
+                                        <p class="card-text mb-auto">{{ $article_meta_datum->body }}</p>
+                                        <a href="{{ route('article.show', [$article_meta_datum->id]) }}">続きを読む</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                        @endforeach
+                    @else
+                        <p>まだ記事がありません。</p>
+                    @endif
                 </div>
             </div>
         </div>

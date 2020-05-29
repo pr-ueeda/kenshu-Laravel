@@ -12,8 +12,14 @@ class ArticleTagsTableSeeder extends Seeder
     public function run()
     {
         \Illuminate\Support\Facades\DB::table('article_tags')->insert([
-            'article_id' => 1,
-            'tag_id'     => 1,
+            [
+                'article_id' => 1,
+                'tag_id'     => 1,
+            ],
+            [
+                'article_id' => 2,
+                'tag_id'     => 2,
+            ],
         ]);
     }
 }
