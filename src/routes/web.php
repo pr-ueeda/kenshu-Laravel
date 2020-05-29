@@ -20,5 +20,5 @@ Route::resource('/', 'ArticleMetaDataController');
 
 Route::get('/article/{id}', 'ArticleController@show')->name('article.show');
 
-Route::resource('/posts', 'PostsController')->names(['store'=> 'posts']);
+Route::resource('/posts', 'PostsController', ['only' => ['index', 'store']])->names(['store'=> 'posts']);
 //Route::post('upload', 'PostsController@uplode')->name('upload');

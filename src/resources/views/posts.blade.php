@@ -12,20 +12,18 @@
 </head>
 <body>
 <script>
-    function upload_file() {
-        var formdata = new FormData($('#upload_form').get(0))
-
-        $.ajax({
-            url  : "/features/article/upload.php",
-            type : "POST",
-            data : formdata,
-            cache       : false,
-            contentType : false,
-            processData : false,
-            dataType    : "html"
-        }).done(function(data, textStatus, jqXHR) {
-            $('.uploaded_images').append('<img src="' + data + '" width="100" height="100">');
-        });
+    function previewImg(obj) {
+        document.getElementById('preview').innerHtml = '<p>プレビュー</p>';
+        // 同時選択された分だけ回す
+        for (i = 0; i < obj.files.length; i++) {
+            var reader = new FileReader();
+            reader.onload = (function (e) {
+                // previewにimgタグを追加
+                document.getElementById('preview').innerHTML
+                    += '<img src="' + e.target.result + '" height="100" width="100">';
+            });
+            reader.readAsDataURL(obj.files[i]);
+        }
     }
 </script>
 <div class="container">
@@ -39,17 +37,10 @@
         <label>本文</label>
         <textarea id="body" name="body" class="form-control" rows="50" cols="80" placeholder="本文をここに入力"></textarea>
         <label>画像アップロード</label>
-        <input type="file" id="up_file" name="up_file[]" multiple>
+        <input type="file" id="up_file" name="up_file[]" accept="image/*" onchange="previewImg(this);" multiple>
+        <p id="preview"></p>
         <button name="posts" id="posts" type="submit" class="btn btn-info">投稿</button>
     </form>
-    <form>
-
-    </form>
-    @isset($filename)
-    <div class="uploaded_images">
-        <img src="{{ asset('public/images/' . $filename) }}">
-    </div>
-    @endisset
 </div>
 </body>
 </html>

@@ -52,8 +52,6 @@ class PostsController extends Controller
         ]);
 
         var_dump($request->file('up_file'));
-        // 最後に追加されたarticleのid取得
-        $last_insert_id = $result->id;
 
         // タグをformから取得し、#で区切って代入
         $tags_name = explode('#', $request->input('tags'));
@@ -78,6 +76,9 @@ class PostsController extends Controller
             ]);
             $images_id[] = $image_insert->id;
         }
+
+        // 最後に追加されたarticleのid取得
+        $last_insert_id = $result->id;
 
         // ログインしているユーザーのID取得
         $user_id = Auth::id();
