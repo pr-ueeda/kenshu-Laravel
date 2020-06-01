@@ -2,8 +2,6 @@
 
 namespace Tests\Unit;
 
-use App\Models;
-use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

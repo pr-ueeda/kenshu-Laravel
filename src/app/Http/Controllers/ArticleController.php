@@ -46,18 +46,17 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        $article_data = Models\User::select()
-            ->join('user_articles', 'user_articles.user_id', '=', 'users.id')
-            ->join('articles', 'user_articles.article_id', '=', 'articles.id')
-            ->join('article_images', 'article_images.article_id', 'articles.id')
-            ->join('images', 'images.id', 'article_images.image_id')
-            ->join('article_tags', 'article_tags.article_id', 'articles.id')
-            ->join('tags', 'tags.id', 'article_tags.tag_id')
-            ->join('thumbnails', 'thumbnails.image_id', 'images.id')
-            ->where('articles.id', '=', $id)
-            ->get();
+        $article = Models\Article::find($id);
+        $article_users = $article->user;
+        $article_images = $article->image;
+        $article_tags = $article->tag;
 
-        return \view('article', ['article_data' => $article_data]);
+        return \view('article', [
+            'article'       => $article,
+            'article_users'  => $article_users,
+            'article_images' => $article_images,
+            'article_tags'   => $article_tags
+        ]);
     }
 
     /**
