@@ -3,22 +3,16 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home/{id}', 'HomeController@show')->name('home_show');
 
 Route::resource('/', 'ArticleMetaDataController');
+
+Route::get('/article/edit/{id}', 'ArticleController@edit')->name('article_edit');
+Route::post('/article/edit', 'ArticleController@update')->name('article_update');
+
+Route::get('article/delete/{id}', 'ArticleController@destroy')->name('article_delete');
 
 Route::get('/article/{id}', 'ArticleController@show')->name('article.show');
 
 Route::resource('/posts', 'PostsController', ['only' => ['index', 'store']])->names(['store'=> 'posts']);
-//Route::post('upload', 'PostsController@uplode')->name('upload');

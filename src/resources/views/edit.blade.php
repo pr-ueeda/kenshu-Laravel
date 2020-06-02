@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.app')
 
-    <title>kenshu-Laravel</title>
-
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-
-</head>
-<body>
+@section('content')
 <script>
     function previewImg(obj) {
         document.getElementById('preview').innerHtml = '<p>プレビュー</p>';
@@ -27,20 +17,23 @@
     }
 </script>
 <div class="container">
-    <form method="POST" enctype="multipart/form-data">
+    {{ $article->id }}
+    <form method="POST" action="{{ route('article_update') }}" enctype="multipart/form-data">
         @csrf
+        <input type="hidden" id="id" name="id" value="{{ $article->id }}"><br>
         <label>題名</label>
-        <input type="text" id="title" name="title" class="form-control" placeholder="タイトル">
+        <input type="text" id="title" name="title" class="form-control" placeholder="タイトル" value="{{ $article->title }}">
         <label>タグ</label>
-        <input type="text" id="tag" name="tags" class="form-control" placeholder="#から始めて、単語をスペースで区切って入力"><br>
+        <input type="text" id="tag" name="tags" class="form-control"
+               placeholder="#から始めて、単語をスペースで区切って入力"
+               value="{{ $article->tag_name }}"><br>
         <label>本文</label>
-        <textarea id="body" name="body" class="form-control" rows="50" cols="80" placeholder="本文をここに入力"></textarea>
+        <textarea id="body" name="body" class="form-control" rows="50" cols="80"
+                  placeholder="本文をここに入力">{{ $article->body }}</textarea>
         <label>画像アップロード</label>
         <input type="file" id="up_file" name="up_file[]" accept="image/*" onchange="previewImg(this);" multiple>
         <p id="preview"></p>
-        <button name="posts" id="posts" type="submit" class="btn btn-info">投稿</button>
+        <button name="posts" id="posts" type="submit" class="btn btn-info">更新</button>
     </form>
 </div>
-</body>
-</html>
-
+@endsection

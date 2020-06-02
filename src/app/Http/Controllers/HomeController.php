@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models;
 
 class HomeController extends Controller
 {
@@ -16,13 +16,10 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index()
+    public function show($id)
     {
-        return view('home');
+        $user_articles = Models\Article::with('user')->whereIn('id', [$id])->get();
+
+        return \view('home', ['user_articles' => $user_articles]);
     }
 }

@@ -68,7 +68,7 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ route('home_show', [Auth::id()]) }}">Home</a>
                     @else
                         <a href="{{ route('login') }}">Login</a>
 
@@ -82,13 +82,13 @@
                 <div class="flex-column">
                     @if(count($article_meta_data) > 0)
                         @foreach($article_meta_data as $article_meta_datum)
-                            {{ var_dump($article_meta_datum->id) }}
                             <div class="col-md-6">
                                 <div class="card flex-md-row mb-4 shadow-sm h-md-250">
                                     <div class="card-body d-flex flex-column align-items-start">
                                         <strong class="d-inline-block mb-2 text-primary"></strong>
                                         <h3 class="mb-0">
-                                            <a class="text-dark" href="">{{ $article_meta_datum->title }}</a>
+                                            <a class="text-dark" href="{{ route('article.show', [$article_meta_datum->id]) }}">
+                                                {{ $article_meta_datum->title }}</a>
                                         </h3>
                                         <div class="mb-1 text-muted">投稿日 : {{ $article_meta_datum->created_at }}</div>
                                         <p class="card-text mb-auto">{{ $article_meta_datum->body }}</p>
