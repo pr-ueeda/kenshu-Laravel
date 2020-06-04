@@ -19,4 +19,8 @@ class Article extends Model
     public function image() {
         return $this->belongsToMany('App\Models\Image', 'article_images');
     }
+
+    public function thumbnail() {
+        return $this->hasOne('App\Models\Thumbnail');
+    }
 }

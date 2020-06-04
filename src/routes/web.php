@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Auth::routes();
-Route::get('/home/{id}', 'HomeController@show')->name('home_show');
+Route::get('/home', 'HomeController@show')->name('home_show');
 
 Route::resource('/', 'ArticleMetaDataController');
 

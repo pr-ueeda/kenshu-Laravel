@@ -12,7 +12,10 @@ class ThumbnailsTableSeeder extends Seeder
     public function run()
     {
         \Illuminate\Support\Facades\DB::table('thumbnails')->insert([
-            'image_id' => 1
+            'image_id' => 1,
+            'article_id' => 1,
+            'created_at' => new DateTime(),
+            'updated_at' => new DateTime()
         ]);
     }
 }

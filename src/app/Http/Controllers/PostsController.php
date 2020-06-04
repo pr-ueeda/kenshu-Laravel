@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreAndUpdateRequestValidation;
+use App\Models\Thumbnail;
 use App\Models\User;
 use App\Models\Article;
 use Illuminate\Http\Request;
+use Illuminate\Session\Store;
 use Illuminate\Support\Facades\Auth;
 
 class PostsController extends Controller
@@ -14,8 +17,9 @@ class PostsController extends Controller
         return view('posts');
     }
 
-    public function store(Request $request)
+    public function store(StoreAndUpdateRequestValidation $request)
     {
+
         // ログインしているユーザーのID取得
         $user_id = Auth::id();
 
@@ -45,9 +49,9 @@ class PostsController extends Controller
         $images_id = [];
         $images = $request->file('up_file');
         foreach ($images as $image) {
-            $path = $image->storeAs('/images', 'userid='. $user_id . '.png');
+            $path = $image->store('public');
             $image_insert = \App\Models\Image::firstOrCreate([
-                'image_url' => $path
+                'image_url' => '/' . $path
             ]);
             $images_id[] = $image_insert->id;
         }
@@ -63,8 +67,15 @@ class PostsController extends Controller
         $article = Article::find($last_insert_id);
         $article->tag()->attach($tag_ids);
 
+        // 中間テーブルarticle_imagesにインサート
         $article->image()->attach($images_id);
 
-        return redirect('/')->with('success', '投稿しました。');
+        $first_image_id = $images_id[0];
+        Thumbnail::create([
+            'image_id' => $first_image_id,
+            'article_id' => $last_insert_id
+        ]);
+
+        return redirect('/home')->with('success', '投稿しました。');
     }
 }

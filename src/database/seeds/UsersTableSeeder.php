@@ -12,7 +12,7 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         \Illuminate\Support\Facades\DB::table('users')->insert([
-            'name'         => '私の名前はアイウエオ',
+            'name'         => 'KAZUNARI UEEDA',
             'email'        => 'sample@sample.com',
             'password'     => \Illuminate\Support\Facades\Hash::make('password'),
             'updated_at'   => new DateTime(),

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -16,9 +18,16 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
-    public function show($id)
+    public function show()
     {
-        $user_articles = Models\Article::with('user')->whereIn('id', [$id])->get();
+        // ログインしているユーザーのid取得
+        $user_id = Auth::id();
+        $user_articles = DB::table('articles')
+            ->join('user_articles', 'articles.id', '=', 'user_articles.article_id')
+            ->join('users', 'users.id', '=', 'user_articles.user_id')
+            ->select('title', 'articles.updated_at', 'user_articles.article_id')
+            ->whereIn('user_articles.user_id', [$user_id])
+            ->get();
 
         return \view('home', ['user_articles' => $user_articles]);
     }

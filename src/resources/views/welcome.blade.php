@@ -40,14 +40,6 @@
                 top: 18px;
             }
 
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
             .links > a {
                 color: #636b6f;
                 padding: 0 25px;
@@ -58,9 +50,6 @@
                 text-transform: uppercase;
             }
 
-            .m-b-md {
-                margin-bottom: 30px;
-            }
         </style>
     </head>
     <body>
@@ -68,7 +57,7 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ route('home_show', [Auth::id()]) }}">Home</a>
+                        <a href="{{ route('home_show') }}">Home</a>
                     @else
                         <a href="{{ route('login') }}">Login</a>
 
@@ -82,27 +71,29 @@
                 <div class="flex-column">
                     @if(count($article_meta_data) > 0)
                         @foreach($article_meta_data as $article_meta_datum)
-                            <div class="col-md-6">
-                                <div class="card flex-md-row mb-4 shadow-sm h-md-250">
-                                    <div class="card-body d-flex flex-column align-items-start">
-                                        <strong class="d-inline-block mb-2 text-primary"></strong>
-                                        <h3 class="mb-0">
-                                            <a class="text-dark" href="{{ route('article.show', [$article_meta_datum->id]) }}">
-                                                {{ $article_meta_datum->title }}</a>
-                                        </h3>
-                                        <div class="mb-1 text-muted">投稿日 : {{ $article_meta_datum->created_at }}</div>
-                                        <p class="card-text mb-auto">{{ $article_meta_datum->body }}</p>
-                                        <a href="{{ route('article.show', [$article_meta_datum->id]) }}">続きを読む</a>
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                                        <div class="col p-4 d-flex flex-column position-static">
+                                            <h3 class="mb-0"><a class="text-dark" href="{{ route('article.show', [$article_meta_datum->id]) }}">
+                                                    {{ $article_meta_datum->title }}</a></h3>
+                                            <div class="mb-1 text-muted">投稿日 : {{ $article_meta_datum->created_at }}</div>
+                                            <div class="col-auto d-none d-lg-block">
+                                                <img class="bd-placeholder-img" src="{{ $article_meta_datum->image_url }}" width="200" height="250">
+                                            </div>
+                                            <p class="mb-auto">{{ $article_meta_datum->body }}</p>
+                                            <a href="{{ route('article.show', [$article_meta_datum->id]) }}" class="stretched-link">続きを読む</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <hr>
                         @endforeach
-                    @else
-                        <p>まだ記事がありません。</p>
-                    @endif
                 </div>
             </div>
         </div>
+        @else
+            <p>まだ記事がありません。</p>
+        @endif
     </body>
 </html>

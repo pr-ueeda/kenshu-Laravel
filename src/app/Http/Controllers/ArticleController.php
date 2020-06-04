@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreAndUpdateRequestValidation;
 use Illuminate\Http\Request;
 use App\Models;
 
@@ -29,7 +30,7 @@ class ArticleController extends Controller
         return \view('edit', ['article' => $article]);
     }
 
-    public function update(Request $request)
+    public function update(StoreAndUpdateRequestValidation $request)
     {
         $article = Models\Article::find($request->id);
 
@@ -48,6 +49,7 @@ class ArticleController extends Controller
         // 区切った分を回しつつ、Tagsテーブルに格納し、格納したidを配列に代入
         foreach ($tags_name as $tag_name) {
             if (!empty($tag_name)) {
+                // 同じタグが複数格納されないように、firstOrCreateを使う
                 $tag_insert = \App\Models\Tag::firstOrCreate([
                     'tag_name' => $tag_name,
                 ]);
@@ -79,6 +81,6 @@ class ArticleController extends Controller
     {
         Models\Article::destroy($id);
 
-        return redirect('/')->with('success', '記事を削除しました。');
+        return redirect('/home')->with('success', '記事を削除しました。');
     }
 }
