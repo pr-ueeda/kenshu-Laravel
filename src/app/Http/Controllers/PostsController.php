@@ -6,9 +6,8 @@ use App\Http\Requests\StoreAndUpdateRequestValidation;
 use App\Models\Thumbnail;
 use App\Models\User;
 use App\Models\Article;
-use Illuminate\Http\Request;
-use Illuminate\Session\Store;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PostsController extends Controller
 {
@@ -49,9 +48,12 @@ class PostsController extends Controller
         $images_id = [];
         $images = $request->file('up_file');
         foreach ($images as $image) {
-            $path = $image->store('public');
+            // public/imagesフォルダへ保存
+            $save_path = Storage::disk('local')->putFile('public/images', $image, 'public');
+            // 保存先のパスから参照先のパスへ置換
+            $reference_path = str_replace('public', 'storage', $save_path);
             $image_insert = \App\Models\Image::firstOrCreate([
-                'image_url' => '/' . $path
+                'image_url' => '/' . $reference_path
             ]);
             $images_id[] = $image_insert->id;
         }
@@ -78,4 +80,7 @@ class PostsController extends Controller
 
         return redirect('/home')->with('success', '投稿しました。');
     }
+
 }
+
+

@@ -13,7 +13,7 @@ class StoreAndUpdateRequestValidation extends FormRequest
             'title' => 'required',
             'tags' => 'required',
             'body' => 'required',
-            'up_file' => 'required'
+            'up_file' => 'required',
         ];
     }
 }

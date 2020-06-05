@@ -17,7 +17,6 @@
     }
 </script>
 <div class="container">
-    {{ $article->id }}
     <form method="POST" action="{{ route('article_update') }}" enctype="multipart/form-data">
         @csrf
         <input type="hidden" id="id" name="id" value="{{ $article->id }}"><br>

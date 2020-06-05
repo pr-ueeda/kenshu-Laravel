@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -9,61 +10,50 @@ class AuthTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * ユーザー登録テスト
-     */
-    public function testRegister()
-    {
-        // テストユーザー作成
-        factory(\App\Models\User::class, 1)->create([
-            'email' => 'test@sample.com',
-            'password' => 'password'
-        ]);
+    protected $user;
+    protected $password = 'password';
 
-        // DBにemail=test@sample.comのユーザーが存在するかどうか
-        $this->assertDatabaseHas('users', [
-            'email' => 'test@sample.com'
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        // userデータを作成
+        $this->user = factory(User::class)->create([
+            'password' => bcrypt($this->password)
         ]);
     }
 
     /**
      * ログイン認証テスト
      */
-    public function testLogin()
+    public function testLogin(): void
     {
-        // テストユーザー作成
-        $user = factory(\App\Models\User::class)->create([
-            'email' => 'test@sample.com',
-            'password' => 'password'
+
+        // setUpで作成したユーザーでログイン
+        $response = $this->post(route('login'), [
+            'email' => $this->user->email,
+            'password' => $this->password
         ]);
 
-        // 作成したユーザーでログイン
-        $response = $this->post('login', [
-            'email' => 'test@sample.com',
-            'password' => bcrypt('password')
-        ]);
 
-        // 認証完了後、/homeへリダイレクトするかどうか
+        // homeにリダイレクトするのか確認
         $response->assertRedirect('/home');
 
-        $this->assertAuthenticated($user);
+        // ログインしたユーザーで認証されているか
+        $this->assertAuthenticatedAs($this->user);
     }
 
     /**
      * ログアウトテスト
      */
-    public function testLogout()
+    public function testLogout(): void
     {
-        // テストユーザー作成
-        $user = factory(\App\Models\User::class)->make([
-            'email' => 'test@sample.com',
-            'password' => 'password'
-        ]);
+        // ログイン済みのユーザーを指定
+        $response = $this->actingAs($this->user);
 
-        $this->assertAuthenticated($user);
+        $response->post(route('logout'));
 
-        $response = $this->actingAs($user);
-
-        $response->post('logout');
+        // 認証されていないか
+        $this->assertGuest();
     }
 }

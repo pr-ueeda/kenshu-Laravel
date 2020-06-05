@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 Route::get('/home', 'HomeController@show')->name('home_show');
 
-Route::resource('/', 'ArticleMetaDataController');
+Route::resource('/', 'ArticleMetaDataController', ['only' => ['index']]);
 
 Route::get('/article/edit/{id}', 'ArticleController@edit')->name('article_edit');
 Route::post('/article/edit', 'ArticleController@update')->name('article_update');

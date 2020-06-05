@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Http\Controllers\PostsController;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models;
@@ -10,27 +11,49 @@ class ArticlePostsTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testArticlePosts()
+    protected $article;
+    protected $tag;
+    protected $image;
+
+    public function setUp(): void
     {
-        factory(Models\Article::class, 1)->create([
-            'title' => 'プログラミングについて'
-            ]
-        );
+        parent::setUp();
 
-        factory(Models\Tag::class, 1)->create();
+        // それぞれテストデータを作成
+        $this->article = factory(Models\Article::class)->create();
 
-        factory(Models\Image::class, 1)->create();
+        $this->tag = factory(Models\Tag::class)->create();
 
+        $this->image = factory(Models\Image::class)->create();
+    }
+
+    public function testHasSaved(): void
+    {
+        // データベースにsetUpで作成したデータがあるか確認
         $this->assertDatabaseHas('articles', [
-            'title' => 'プログラミングについて'
+            'title' => $this->article->title
         ]);
 
         $this->assertDatabaseHas('tags', [
-            'tag_name' => 'laravel'
+            'tag_name' => $this->tag->tag_name
         ]);
 
         $this->assertDatabaseHas('images', [
-            'image_url' =>  'http://.......'
+            'image_url' =>  $this->image->image_url
         ]);
+    }
+
+    public function testSplitAndSave()
+    {
+        $article = $this->createPartialMock(PostsController::class, ['splitAndSave']);
+
+        $article->expects($this->once())
+            ->method('splitAndSave')
+            ->with($this->equalTo('#tag #tag'))
+            ->willReturn(3);
+
+
+
+
     }
 }

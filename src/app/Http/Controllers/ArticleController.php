@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAndUpdateRequestValidation;
 use Illuminate\Http\Request;
 use App\Models;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
@@ -61,9 +62,12 @@ class ArticleController extends Controller
         $images = $request->file('up_file');
 
         foreach ($images as $image) {
-            $path = $image->store('images');
+            // public/imagesフォルダへ保存
+            $save_path = Storage::disk('local')->putFile('public/images', $image, 'public');
+            // 保存先のパスから参照先のパスへ置換
+            $reference_path = str_replace('public', 'storage', $save_path);
             $image_insert = \App\Models\Image::create([
-                'image_url' => $path
+                'image_url' => $reference_path
             ]);
             $images_id[] = $image_insert->id;
         }
