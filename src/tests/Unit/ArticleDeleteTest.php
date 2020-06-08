@@ -20,6 +20,9 @@ class ArticleDeleteTest extends TestCase
         $this->article = factory(Models\Article::class)->create();
     }
 
+    /**
+     * 記事削除テスト
+     */
     public function testArticleDelete()
     {
         // 削除

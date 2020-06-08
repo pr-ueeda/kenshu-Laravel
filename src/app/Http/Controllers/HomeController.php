@@ -21,6 +21,8 @@ class HomeController extends Controller
     public function show()
     {
         // ログインしているユーザーのid取得
+        // 各モデルファイルで定義しているリレーションを使ってデータ取得しようとしましたが、
+        // ユーザーに紐づいた記事が1つしか取得することができなかったので、この形で処理を行っています。
         $user_id = Auth::id();
         $user_articles = DB::table('articles')
             ->join('user_articles', 'articles.id', '=', 'user_articles.article_id')

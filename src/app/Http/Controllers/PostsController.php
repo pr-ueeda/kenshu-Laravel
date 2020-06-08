@@ -7,8 +7,6 @@ use App\Models\Thumbnail;
 use App\Models\User;
 use App\Models\Article;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\Request;
 use App\functions;
 
 class PostsController extends Controller
@@ -16,7 +14,7 @@ class PostsController extends Controller
     private $splitAndSave;
 
     // テストをしやすくするためにコントラクタインジェクションを実装
-    public function __construct(functions\SplitSave $splitAndSave)
+    public function __construct(functions\SplitRegister $splitAndSave)
     {
         $this->splitAndSave = $splitAndSave;
     }

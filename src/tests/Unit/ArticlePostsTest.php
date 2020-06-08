@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\functions\SplitSave;
+use App\functions\SplitRegister;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models;
@@ -43,10 +43,15 @@ class ArticlePostsTest extends TestCase
         ]);
     }
 
+    // タグと画像(複数入力があるform)のデータを分割してDBに格納するメソッドのテスト
     public function testSplitAndSave()
     {
-        $article = $this->createPartialMock(SplitSave::class, ['splitSaveTags']);
+        // SplitRegisterクラスのsplitSaveTagsメソッドをパーシャルモック化
+        $article = $this->createPartialMock(SplitRegister::class, ['splitSaveTags']);
 
+        // パーシャルモックの設定。一回だけでいいので一回だけ呼び出し、
+        // 引数に実際のメソッドが受け取る形で指定
+        // データベースに保存された後にint型の整数が返ってくるか
         $article->expects($this->once())
             ->method('splitSaveTags')
             ->with($this->equalTo('#tag #tag2'))

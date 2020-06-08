@@ -77,9 +77,10 @@
                                         <div class="col p-4 d-flex flex-column position-static">
                                             <h3 class="mb-0"><a class="text-dark" href="{{ route('article.show', [$article_meta_datum->id]) }}">
                                                     {{ $article_meta_datum->title }}</a></h3>
-                                            <div class="mb-1 text-muted">投稿日 : {{ $article_meta_datum->created_at }}</div>
+                                            <div class="mb-1 text-muted">投稿者 : {{ $article_meta_datum->user->first()->name }}</div>
+                                            <div class="mb-1 text-muted">投稿日 : {{ $article_meta_datum->updated_at }}</div>
                                             <div class="col-auto d-none d-lg-block">
-                                                <img class="bd-placeholder-img" src="{{ $article_meta_datum->image_url }}" width="200" height="250">
+                                                <img class="bd-placeholder-img" src="{{ $article_meta_datum->image->first()->image_url }}" width="200" height="250">
                                             </div>
                                             <p class="mb-auto">{{ $article_meta_datum->body }}</p>
                                             <a href="{{ route('article.show', [$article_meta_datum->id]) }}" class="stretched-link">続きを読む</a>

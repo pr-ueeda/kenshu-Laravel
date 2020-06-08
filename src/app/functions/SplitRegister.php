@@ -4,7 +4,7 @@ namespace App\functions;
 
 use Illuminate\Support\Facades\Storage;
 
-class SplitSave {
+class SplitRegister {
 
     public function splitSaveTags(String $request): array {
         // タグをformから取得し、#で区切って代入

@@ -10,16 +10,18 @@ use App\functions;
 
 class ArticleController extends Controller
 {
-    private $splitAndSave;
+    private $splitRegister;
 
-    // テストをしやすくするためにコントラクタインジェクションを実装
-    public function __construct(functions\SplitSave $splitAndSave)
+    // showメソッドでは使わないので、setterでDIするのもいいかと考えましたが、
+    // controllerなので、setterメソッドをここで作成するのはMVC的によくないと思い、コンストラクタで依存注入を行いました。
+    public function __construct(functions\SplitRegister $splitRegister)
     {
-        $this->splitAndSave = $splitAndSave;
+        $this->splitRegister = $splitRegister;
     }
 
     public function show($id)
     {
+        // それぞれ、articleテーブルからリレーションがあるテーブルを呼び出す
         $article = Models\Article::find($id);
         $article_users = $article->user;
         $article_images = $article->image;
@@ -35,6 +37,8 @@ class ArticleController extends Controller
 
     public function edit($id)
     {
+        // まず、routeからeditへ遷移させる。
+        // このタイミングでuserに紐づいている記事のidを取得させ、viewに返す
         $article = Models\Article::with('user')->find($id);
 
         return \view('edit', ['article' => $article]);
@@ -53,8 +57,8 @@ class ArticleController extends Controller
 
         $article->save();
 
-        $tag_ids = $this->splitAndSave->splitSaveTags($request->input('tags'));
-        $image_ids = $this->splitAndSave->splitSaveImages($images = $request->file('up_file'));
+        $tag_ids = $this->splitRegister->splitSaveTags($request->input('tags'));
+        $image_ids = $this->splitRegister->splitSaveImages($images = $request->file('up_file'));
 
         // article_tagsテーブルの更新
         $article->tag()->sync($tag_ids);

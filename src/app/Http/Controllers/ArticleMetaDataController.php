@@ -8,7 +8,7 @@ class ArticleMetaDataController extends Controller
 {
     public function index()
     {
-        $article_meta_data = Models\Article::with('user', 'image', 'thumbnail')->get();
+        $article_meta_data = Models\Article::with(['user', 'image.thumbnail'])->select()->get();
 
         return \view('welcome', ['article_meta_data' => $article_meta_data]);
     }
