@@ -11,29 +11,35 @@ class ArticleUpdateTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $article;
+    protected $tag;
+    protected $image;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        // それぞれテストデータを作成
+        $this->article = factory(Models\Article::class)->create();
+
+        $this->tag = factory(Models\Tag::class)->create();
+
+        $this->image = factory(Models\Image::class)->create();
+    }
+
     public function testArticleUpdate()
     {
-        // 記事のタイトル、本文、タグ、画像についてそれぞれデータを作成
-        $article = factory(Models\Article::class, 1)->create([
-                'title' => 'プログラミングについて'
-            ]
-        );
-
-        $article_tag = factory(Models\Tag::class, 1)->create();
-
-        $article_image = factory(Models\Image::class, 1)->create();
-
         // 記事のタイトルを置き換えて保存、第一引数と第二引数が等しいか
-        $article->fill(['title' => 'コロナウイルスについて']);
-        $article->save();
-        $this->assertEquals('プログラミングについて', $article->title);
+        $this->article->fill(['title' => 'コロナウイルスについて']);
+        $this->article->save();
+        $this->assertEquals('コロナウイルスについて', $this->article->title);
 
-        $article_tag->fill(['image_url' => 'http://images/sample']);
-        $article_tag->save();
-        $this->assertEquals('http://images/sample', $article_tag->tag_name);
+        $this->tag->fill(['tag_name' => 'php']);
+        $this->tag->save();
+        $this->assertEquals('php', $this->tag->tag_name);
 
-        $article_tag->fill(['tag_name' => 'コロナウイルス']);
-        $article_tag->save();
-        $this->assertEquals('コロナウイルス', $article_image->image_url);
+        $this->image->fill(['image_url' => 'http://sample/sample']);
+        $this->image->save();
+        $this->assertEquals('http://sample/sample', $this->image->image_url);
     }
 }

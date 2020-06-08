@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Http\Controllers\PostsController;
+use App\functions\SplitSave;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models;
@@ -45,15 +45,13 @@ class ArticlePostsTest extends TestCase
 
     public function testSplitAndSave()
     {
-        $article = $this->createPartialMock(PostsController::class, ['splitAndSave']);
+        $article = $this->createPartialMock(SplitSave::class, ['splitSaveTags']);
 
         $article->expects($this->once())
-            ->method('splitAndSave')
-            ->with($this->equalTo('#tag #tag'))
-            ->willReturn(3);
+            ->method('splitSaveTags')
+            ->with($this->equalTo('#tag #tag2'))
+            ->willReturn([3, 4]);
 
-
-
-
+        $article->splitSaveTags('#tag #tag2');
     }
 }

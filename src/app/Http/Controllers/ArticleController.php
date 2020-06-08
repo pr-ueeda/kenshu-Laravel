@@ -6,9 +6,18 @@ use App\Http\Requests\StoreAndUpdateRequestValidation;
 use Illuminate\Http\Request;
 use App\Models;
 use Illuminate\Support\Facades\Storage;
+use App\functions;
 
 class ArticleController extends Controller
 {
+    private $splitAndSave;
+
+    // テストをしやすくするためにコントラクタインジェクションを実装
+    public function __construct(functions\SplitSave $splitAndSave)
+    {
+        $this->splitAndSave = $splitAndSave;
+    }
+
     public function show($id)
     {
         $article = Models\Article::find($id);
@@ -44,39 +53,14 @@ class ArticleController extends Controller
 
         $article->save();
 
-        // タグをformから取得し、#で区切って代入
-        $tags_name = explode('#', $request->input('tags'));
-        $tag_ids = [];
-        // 区切った分を回しつつ、Tagsテーブルに格納し、格納したidを配列に代入
-        foreach ($tags_name as $tag_name) {
-            if (!empty($tag_name)) {
-                // 同じタグが複数格納されないように、firstOrCreateを使う
-                $tag_insert = \App\Models\Tag::firstOrCreate([
-                    'tag_name' => $tag_name,
-                ]);
-                $tag_ids[] = $tag_insert->id;
-            }
-        }
-
-        $images_id = [];
-        $images = $request->file('up_file');
-
-        foreach ($images as $image) {
-            // public/imagesフォルダへ保存
-            $save_path = Storage::disk('local')->putFile('public/images', $image, 'public');
-            // 保存先のパスから参照先のパスへ置換
-            $reference_path = str_replace('public', 'storage', $save_path);
-            $image_insert = \App\Models\Image::create([
-                'image_url' => $reference_path
-            ]);
-            $images_id[] = $image_insert->id;
-        }
+        $tag_ids = $this->splitAndSave->splitSaveTags($request->input('tags'));
+        $image_ids = $this->splitAndSave->splitSaveImages($images = $request->file('up_file'));
 
         // article_tagsテーブルの更新
         $article->tag()->sync($tag_ids);
 
         // article_imagesテーブルの更新
-        $article->image()->sync($images_id);
+        $article->image()->sync($image_ids);
 
         return redirect('/')->with('success', '更新しました。');
     }

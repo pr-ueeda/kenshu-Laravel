@@ -7,6 +7,9 @@ use Illuminate\Foundation\Http\FormRequest;
 class StoreAndUpdateRequestValidation extends FormRequest
 {
     // バリデーションのルール設定
+    /**
+     * @var mixed
+     */
     public function rules()
     {
         return [

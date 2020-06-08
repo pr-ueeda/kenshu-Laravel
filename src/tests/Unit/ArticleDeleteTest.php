@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Mockery\Exception;
 use Tests\TestCase;
 use App\Models;
 
@@ -10,19 +11,27 @@ class ArticleDeleteTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected $article;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->article = factory(Models\Article::class)->create();
+    }
+
     public function testArticleDelete()
     {
-        $article = factory(Models\Article::class, 1)->create([
-                'title' => 'プログラミングについて'
-            ]
-        );
-
         // 削除
-        $article->delete();
+        try {
+            $this->article->delete();
+        } catch (\Exception $e) {
+            throw new Exception($e);
+        }
 
         // titleがプログラミングについてのデータが存在しないか
-        $this->assertDatabaseMissing('article', [
-            'title' => 'プログラミングについて'
+        $this->assertDatabaseMissing('articles', [
+            'id' => $this->article->id
         ]);
     }
 }

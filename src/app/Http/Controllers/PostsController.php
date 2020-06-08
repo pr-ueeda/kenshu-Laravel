@@ -8,9 +8,19 @@ use App\Models\User;
 use App\Models\Article;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\Request;
+use App\functions;
 
 class PostsController extends Controller
 {
+    private $splitAndSave;
+
+    // テストをしやすくするためにコントラクタインジェクションを実装
+    public function __construct(functions\SplitSave $splitAndSave)
+    {
+        $this->splitAndSave = $splitAndSave;
+    }
+
     public function index()
     {
         return view('posts');
@@ -32,31 +42,8 @@ class PostsController extends Controller
             'body' => $body
         ]);
 
-        // タグをformから取得し、#で区切って代入
-        $tags_name = explode('#', $request->input('tags'));
-        $tag_ids = [];
-        // 区切った分を回しつつ、Tagsテーブルに格納し、格納したidを配列に代入
-        foreach ($tags_name as $tag_name) {
-            if (!empty($tag_name)) {
-                $tag_insert = \App\Models\Tag::firstOrCreate([
-                    'tag_name' => $tag_name,
-                ]);
-                $tag_ids[] = $tag_insert->id;
-            }
-        }
-
-        $images_id = [];
-        $images = $request->file('up_file');
-        foreach ($images as $image) {
-            // public/imagesフォルダへ保存
-            $save_path = Storage::disk('local')->putFile('public/images', $image, 'public');
-            // 保存先のパスから参照先のパスへ置換
-            $reference_path = str_replace('public', 'storage', $save_path);
-            $image_insert = \App\Models\Image::firstOrCreate([
-                'image_url' => '/' . $reference_path
-            ]);
-            $images_id[] = $image_insert->id;
-        }
+        $tag_ids = $this->splitAndSave->splitSaveTags($request->input('tags'));
+        $image_ids = $this->splitAndSave->splitSaveImages($images = $request->file('up_file'));
 
         // 最後に追加されたarticleのid取得
         $last_insert_id = $result->id;
@@ -70,9 +57,9 @@ class PostsController extends Controller
         $article->tag()->attach($tag_ids);
 
         // 中間テーブルarticle_imagesにインサート
-        $article->image()->attach($images_id);
+        $article->image()->attach($image_ids);
 
-        $first_image_id = $images_id[0];
+        $first_image_id = $image_ids[0];
         Thumbnail::create([
             'image_id' => $first_image_id,
             'article_id' => $last_insert_id
