@@ -27,7 +27,7 @@ class SplitRegister {
         $images_id = [];
         foreach ($request as $image) {
             // public/imagesフォルダへ保存
-            $save_path = Storage::disk('local')->putFile('public/images', $image, 'public');
+            $save_path = Storage::disk('sftp')->putFile('public/images', $image);
             // 保存先のパスから参照先のパスへ置換
             $reference_path = str_replace('public', 'storage', $save_path);
             $image_insert = \App\Models\Image::firstOrCreate([

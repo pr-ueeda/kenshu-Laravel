@@ -56,6 +56,15 @@ return [
             ],
         ],
 
+        'sftp' => [
+            'driver' => 'sftp',
+            'host' => '18.180.245.234',
+            'username' => 'sftp_user',
+            'password' => 'az5Bc6j',
+            'privateKey' => '/home/sftp_user/.ssh/sftp-server.pem',
+            'root' => '/home/sftp_user'
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
