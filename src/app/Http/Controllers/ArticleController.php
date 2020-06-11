@@ -55,6 +55,7 @@ class ArticleController extends Controller
 
         $article->save();
 
+        // タグの画像を一つずつDBに格納するメソッド呼び出し
         $tag_ids = $this->splitRegister->splitRegisterTags($request->input('tags'));
         $image_ids = $this->splitRegister->splitRegisterImages($images = $request->file('up_file'));
 

@@ -40,6 +40,7 @@ class PostsController extends Controller
             'body' => $body
         ]);
 
+        // タグの画像を一つずつDBに格納するメソッド呼び出し
         $tag_ids = $this->splitAndSave->splitRegisterTags($request->input('tags'));
         $image_ids = $this->splitAndSave->splitRegisterImages($images = $request->file('up_file'));
 
