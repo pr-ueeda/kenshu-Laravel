@@ -40,8 +40,8 @@ class PostsController extends Controller
             'body' => $body
         ]);
 
-        $tag_ids = $this->splitAndSave->splitSaveTags($request->input('tags'));
-        $image_ids = $this->splitAndSave->splitSaveImages($images = $request->file('up_file'));
+        $tag_ids = $this->splitAndSave->splitRegisterTags($request->input('tags'));
+        $image_ids = $this->splitAndSave->splitRegisterImages($images = $request->file('up_file'));
 
         // 最後に追加されたarticleのid取得
         $last_insert_id = $result->id;
@@ -67,5 +67,3 @@ class PostsController extends Controller
     }
 
 }
-
-

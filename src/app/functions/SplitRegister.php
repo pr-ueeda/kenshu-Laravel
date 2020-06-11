@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Storage;
 
 class SplitRegister {
 
-    public function splitSaveTags(String $request): array {
+    public function splitRegisterTags(String $request): array {
         // タグをformから取得し、#で区切って代入
         $tags_name = explode('#', $request);
         $tag_ids = [];
@@ -23,7 +23,7 @@ class SplitRegister {
         return $tag_ids;
     }
 
-    public function splitSaveImages(array $request): array {
+    public function splitRegisterImages(array $request): array {
         $images_id = [];
         foreach ($request as $image) {
             // public/imagesフォルダへ保存

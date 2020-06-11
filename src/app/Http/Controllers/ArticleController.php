@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAndUpdateRequestValidation;
-use Illuminate\Http\Request;
 use App\Models;
-use Illuminate\Support\Facades\Storage;
 use App\functions;
 
 class ArticleController extends Controller
@@ -57,8 +55,8 @@ class ArticleController extends Controller
 
         $article->save();
 
-        $tag_ids = $this->splitRegister->splitSaveTags($request->input('tags'));
-        $image_ids = $this->splitRegister->splitSaveImages($images = $request->file('up_file'));
+        $tag_ids = $this->splitRegister->splitRegisterTags($request->input('tags'));
+        $image_ids = $this->splitRegister->splitRegisterImages($images = $request->file('up_file'));
 
         // article_tagsテーブルの更新
         $article->tag()->sync($tag_ids);
