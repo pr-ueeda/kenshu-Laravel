@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\BaseModel;
 use Illuminate\Database\Eloquent\Model;
 
-class Article extends Model
+class Article extends BaseModel
 {
+    public static $rules = [];
+
     protected $guarded = ['id'];
 
     public function user() {
