@@ -60,6 +60,11 @@
                                         document.getElementById('posts-article').submit();">
                                         {{ __('記事投稿') }}
                                     </a>
+                                    <a class="dropdown-item" href="{{ route('tasks_show', [Auth::user()->id]) }}"
+                                       onclick="event.preventDefault();
+                                        document.getElementById('tasks').submit();">
+                                        {{ __('タスク管理') }}
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                         document.getElementById('logout-form').submit();">
@@ -67,6 +72,9 @@
                                     </a>
 
                                     <form id="posts-article" action="{{ url('/posts') }}" method="GET" style="display: none;">
+                                        @csrf
+                                    </form>
+                                    <form id="tasks" action="{{ url('/tasks') }}" method="GET" style="display: none;">
                                         @csrf
                                     </form>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
