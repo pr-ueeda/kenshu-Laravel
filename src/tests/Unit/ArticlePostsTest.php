@@ -47,16 +47,16 @@ class ArticlePostsTest extends TestCase
     public function testSplitAndSave()
     {
         // SplitRegisterクラスのsplitSaveTagsメソッドをパーシャルモック化
-        $article = $this->createPartialMock(SplitRegister::class, ['splitSaveTags']);
+        $article = $this->createPartialMock(SplitRegister::class, ['splitRegisterTags']);
 
         // パーシャルモックの設定。一回だけでいいので一回だけ呼び出し、
         // 引数に実際のメソッドが受け取る形で指定
         // データベースに保存された後にint型の整数が返ってくるか
         $article->expects($this->once())
-            ->method('splitSaveTags')
+            ->method('splitRegisterTags')
             ->with($this->equalTo('#tag #tag2'))
             ->willReturn([3, 4]);
 
-        $article->splitSaveTags('#tag #tag2');
+        $article->splitRegisterTags('#tag #tag2');
     }
 }

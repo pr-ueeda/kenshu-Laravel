@@ -42,6 +42,7 @@ class ArticleController extends Controller
         return \view('edit', ['article' => $article]);
     }
 
+    // バリデーション
     public function update(StoreAndUpdateRequestValidation $request)
     {
         $article = Models\Article::find($request->id);
