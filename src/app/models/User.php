@@ -15,4 +15,8 @@ class User extends Model implements Authenticatable
     public function article() {
         return $this->belongsToMany('App\Models\Article', 'user_articles');
     }
+
+    public function task() {
+        return $this->hasMany('App\Models\Task');
+    }
 }
